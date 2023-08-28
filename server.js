@@ -7,19 +7,27 @@ const app = express();
 // Variable for the port
 const port = 3000;
 
-// Bottles of beer
-let bottlesOfBeer = 99;
-
 // Main route
 app.get("/", (req, res) => {
+  // Bottles of beer
+  let bottlesOfBeer = 99;
+
   res.send(`<h2>${bottlesOfBeer} bottles of beer on the wall</h2>
     <a href='/${bottlesOfBeer - 1}'>Take one down and pass it around!</a>`);
 });
 
 app.get("/:number", (req, res) => {
   bottlesOfBeer = Number(req.params.number);
+  let link;
+
+  bottlesOfBeer > 0
+    ? (link = `<a href='/${
+        bottlesOfBeer - 1
+      }'>Take one down and pass it around!</a>`)
+    : (link = `<a href='/'>Start over from the top?</a>`);
+
   res.send(`<h2>${bottlesOfBeer} bottles of beer on the wall</h2>
-      <a href='/${bottlesOfBeer - 1}'>Take one down and pass it around!</a>`);
+      ${link}`);
 });
 
 // Listen on the port
